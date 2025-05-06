@@ -1,0 +1,48 @@
+.logoContainer {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden; 
+  aspect-ratio: 1 / 1; 
+}
+
+
+.small {
+  width: 40px;
+  height: auto;
+}
+
+.medium {
+  width: 60px;
+  height: auto;
+}
+
+.large {
+  width: 150px;
+  height: auto;
+}
+
+.logoImage {
+  height: auto; 
+  display: block;
+  
+ 
+  transition: transform 0.3s ease;
+}
+
+.logoImage:hover {
+  transform: scale(1.10);
+}
+
+
+.maintainAspect {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+
+.logoImage.rectangular {
+  width: auto;
+  max-height: 100%;
+}

@@ -1,0 +1,29 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+
+:root {
+  --mclaren-orange: #dd5a1d;
+  --mclaren-black: #000000;
+  --mclaren-dark: #1A1A1A;
+}
+
+body {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  background-color: var(--mclaren-black);
+  color: white;
+}
+
+
+a {
+  color: var(--mclaren-orange);
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+a:hover {
+  text-shadow: 0 0 8px rgba(255, 128, 0, 0.6);
+}

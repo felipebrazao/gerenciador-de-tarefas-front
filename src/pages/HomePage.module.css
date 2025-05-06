@@ -1,0 +1,65 @@
+.home_page {
+    font-family: 'Orbitron', sans-serif;
+    background-color: var(--mclaren-black); /* Preto McLaren */
+    color: #ffffff;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem;
+  }
+  
+  .home_page h1 {
+    color: var(--mclaren-orange); /* Laranja McLaren */
+    font-size: 3.5rem;
+    margin-bottom: 2rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    text-shadow: 0 0 10px rgba(255, 128, 0, 0.5);
+    margin-top: 2rem;
+  }
+  
+  .home_page p {
+    font-size: 1.5rem;
+    margin-bottom: 3rem;
+    max-width: 600px;
+    line-height: 1.6;
+  }
+  
+  .home_page a {
+    color: var(--mclaren-orange);
+    background-color: transparent;
+    border: 2px solid var(--mclaren-orange);
+    padding: 12px 30px;
+    font-size: 1.1rem;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 1px;
+    border-radius: 30px;
+    transition: all 0.3s ease;
+    margin-top: 0.2rem;
+    display: inline-block;
+  }
+  
+  .home_page a:hover {
+    background-color: var(--mclaren-orange);
+    color: var(--mclaren-black);
+    box-shadow: 0 0 15px rgba(255, 128, 0, 0.7);
+    transform: translateY(-3px);
+  }
+  
+  /* Efeito de gradiente opcional para fundo */
+  .home_page::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: linear-gradient(90deg, var(--mclaren-orange), var(--mclaren-black));
+    z-index: 10;
+  }

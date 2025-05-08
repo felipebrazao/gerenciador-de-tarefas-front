@@ -1,41 +1,45 @@
+// src/pages/RegisterForm.tsx
 import React from 'react';
-import { RegisterData } from '../utils/auth';
 import styles from './RegisterForm.module.css';
 
 type FieldErrors = {
-  name?: string;
+  nome?: string;
   email?: string;
-  password?: string;
+  senha?: string;
 };
 
+
+
 type Props = {
-  onSubmit: (data: RegisterData) => void;
+  onSubmit: (data: { nome: string; email: string; senha: string }) => void;
   isLoading?: boolean;
   error?: string | null;
 };
 
-export const RegisterForm: React.FC<Props> = ({ onSubmit, isLoading, error }) => {
-  const [formData, setFormData] = React.useState<RegisterData>({
-    name: '',
+
+
+export const RegisterForm: React.FC<Props> = ({ onSubmit, isLoading, error}) => {
+  const [formData, setFormData] = React.useState({
+    nome: '',
     email: '',
-    password: ''
+    senha: ''
   });
 
   const [errors, setErrors] = React.useState<FieldErrors>({});
 
-  const validateField = (name: keyof RegisterData, value: string) => {
+  const validateField = (nome: keyof typeof formData, value: string) => {
     let error = '';
     
     if (!value.trim()) {
       error = 'Preencha este campo';
     } else {
-      switch (name) {
+      switch (nome) {
         case 'email':
           if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
             error = 'Insira um email válido';
           }
           break;
-        case 'password':
+        case 'senha':
           if (value.length < 6) {
             error = 'A senha deve ter pelo menos 6 caracteres';
           }
@@ -43,7 +47,7 @@ export const RegisterForm: React.FC<Props> = ({ onSubmit, isLoading, error }) =>
       }
     }
     
-    setErrors(prev => ({ ...prev, [name]: error }));
+    setErrors(prev => ({ ...prev, [nome]: error }));
     return !error;
   };
 
@@ -51,54 +55,55 @@ export const RegisterForm: React.FC<Props> = ({ onSubmit, isLoading, error }) =>
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
     
-    // Validação em tempo real após o primeiro erro
     if (errors[name as keyof FieldErrors]) {
-      validateField(name as keyof RegisterData, value);
+      validateField(name as keyof typeof formData, value);
     }
   };
 
   const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    validateField(name as keyof RegisterData, value);
+    validateField(name as keyof typeof formData, value);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Valida todos os campos antes de submeter
-    const isNameValid = validateField('name', formData.name);
+    const isnomeValid = validateField('nome', formData.nome);
     const isEmailValid = validateField('email', formData.email);
-    const isPasswordValid = validateField('password', formData.password);
+    const issenhaValid = validateField('senha', formData.senha);
     
-    if (isNameValid && isEmailValid && isPasswordValid) {
+    if (isnomeValid && isEmailValid && issenhaValid) {
       onSubmit(formData);
     }
   };
 
   return (
     <form className={styles.registerForm} onSubmit={handleSubmit} noValidate>
-      {error && <div className={styles.formError}>{error}</div>}
-      
-      <div className={`${styles.formGroup} ${errors.name ? styles.hasError : ''}`}>
-        <label htmlFor="name">Nome</label>
+      {error && (
+  <div className={styles.formError} role="alert" aria-live="assertive">
+    {typeof error === 'string' ? error : 'Ocorreu um erro no registro'}
+  </div>
+)}
+      <div className={`${styles.formGroup} ${errors.nome ? styles.hasError : ''}`}>
+        <label htmlFor="nome">Nome</label>
         <input
           type="text"
-          id="name"
-          name="name"
-          value={formData.name}
+          id="nome"
+          name="nome"
+          value={formData.nome}
           onChange={handleChange}
           onBlur={handleBlur}
           required
-          aria-describedby={errors.name ? "name-error" : undefined}
+          aria-describedby={errors.nome ? "nome-error" : undefined}
+          className={styles.formInput}
         />
-        {errors.name && (
-          <span id="name-error" className={styles.fieldError}>
-            {errors.name}
+        {errors.nome && (
+          <span id="nome-error" className={styles.fieldError}>
+            {errors.nome}
           </span>
         )}
       </div>
 
-      {/* Repita para email e password com validações específicas */}
       <div className={`${styles.formGroup} ${errors.email ? styles.hasError : ''}`}>
         <label htmlFor="email">Email</label>
         <input
@@ -110,6 +115,7 @@ export const RegisterForm: React.FC<Props> = ({ onSubmit, isLoading, error }) =>
           onBlur={handleBlur}
           required
           aria-describedby={errors.email ? "email-error" : undefined}
+          className={styles.formInput}
         />
         {errors.email && (
           <span id="email-error" className={styles.fieldError}>
@@ -118,28 +124,40 @@ export const RegisterForm: React.FC<Props> = ({ onSubmit, isLoading, error }) =>
         )}
       </div>
 
-      <div className={`${styles.formGroup} ${errors.password ? styles.hasError : ''}`}>
-        <label htmlFor="password">Senha</label>
+      <div className={`${styles.formGroup} ${errors.senha ? styles.hasError : ''}`}>
+        <label htmlFor="senha">Senha</label>
         <input
           type="password"
-          id="password"
-          name="password"
-          value={formData.password}
+          id="senha"
+          name="senha"
+          value={formData.senha}
           onChange={handleChange}
           onBlur={handleBlur}
           required
           minLength={6}
-          aria-describedby={errors.password ? "password-error" : undefined}
+          aria-describedby={errors.senha ? "senha-error" : undefined}
+          className={styles.formInput}
         />
-        {errors.password && (
-          <span id="password-error" className={styles.fieldError}>
-            {errors.password}
+        {errors.senha && (
+          <span id="senha-error" className={styles.fieldError}>
+            {errors.senha}
           </span>
         )}
       </div>
 
-      <button type="submit" disabled={isLoading}>
-        {isLoading ? 'Registrando...' : 'Criar conta'}
+      <button 
+        type="submit" 
+        disabled={isLoading}
+        className={`${styles.submitButton} ${isLoading ? styles.loading : ''}`}
+      >
+        {isLoading ? (
+          <>
+            <span className={styles.spinner}></span>
+            Registrando...
+          </>
+        ) : (
+          'Criar conta'
+        )}
       </button>
     </form>
   );

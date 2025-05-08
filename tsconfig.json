@@ -6,8 +6,9 @@
   ]
   ,
     "compilerOptions": {
-      "types": ["vite/client"],
+      "types": ["vite/client", "axios"],
       "esModuleInterop": true
     }
 }
+
 

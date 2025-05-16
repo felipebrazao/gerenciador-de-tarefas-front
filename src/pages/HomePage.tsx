@@ -7,9 +7,9 @@ export function HomePage() {
        <Logo size="large" className={styles.homeLogo} />
       <h1>Welcome to the Task Manager</h1>
       <p>
-        The best place to organize your tasks
+        O melhor lugar para organizar suas tarefas
       </p>
-      <a href="/register">Start Your Management</a>
+      <a href="/register">Comece Seu Gerenciamento</a>
     </div>
   );
 }

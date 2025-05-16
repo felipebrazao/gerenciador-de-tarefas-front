@@ -1,4 +1,4 @@
-/* Container principal */
+
 .registerForm {
     display: flex;
     flex-direction: column;
@@ -6,7 +6,7 @@
     width: 100%;
   }
   
-  /* Mensagem de erro */
+
   .errorMessage {
     color: #ff5800;
     background-color: rgba(255, 0, 0, 0.1);
@@ -17,14 +17,14 @@
     margin-bottom: 0.5rem;
   }
   
-  /* Grupo de formulário */
+ 
   .formGroup {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
   }
   
-  /* Labels */
+
   .formGroup label {
     color: #ffffff;
     font-weight: 600;
@@ -33,7 +33,7 @@
     letter-spacing: 0.5px;
   }
   
-  /* Inputs */
+
   .formGroup input {
     background-color: #111111;
     border: 1px solid #333333;
@@ -50,16 +50,17 @@
     box-shadow: 0 0 0 2px rgba(255, 128, 0, 0.3);
   }
   
-  /* Efeito hover nos inputs */
+ 
   .formGroup input:hover {
     border-color: #555555;
   }
   
-  /* Botão de submit */
+ 
   .registerForm button {
-    background-color: var(--mclaren-orange); /* Laranja McLaren */
-    color: black;
-    border: none;
+    color: var(--mclaren-orange);
+    background-color: transparent;
+    border: 2px solid var(--mclaren-orange);
+    text-shadow: 0 0 4px rgba(255, 128, 0, 0.5);
     border-radius: 4px;
     padding: 1rem;
     font-size: 1rem;
@@ -72,7 +73,8 @@
   }
   
   .registerForm button:hover {
-    background-color: #FF5800; /* Laranja mais escuro */
+    color: var(--mclaren-black);
+    background-color: #FF5800; 
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(255, 128, 0, 0.3);
   }
@@ -85,13 +87,13 @@
     opacity: 0.7;
   }
   
-  /* Efeitos de foco acessível */
+
   .registerForm button:focus-visible {
     outline: 2px solid white;
     outline-offset: 2px;
   }
   
-  /* Responsividade */
+  
   @media (max-width: 480px) {
     .formGroup input {
       padding: 0.7rem 0.9rem;
@@ -112,7 +114,7 @@
     margin-bottom: 1rem;
   }
   
-  /* Campo com erro */
+ 
   .hasError input {
     border-color: #ff5800 !important;
     background-color: rgba(255, 0, 0, 0.05);
@@ -122,7 +124,7 @@
     box-shadow: 0 0 0 2px rgba(255, 0, 0, 0.2);
   }
   
-  /* Mensagem de erro do campo */
+ 
   .fieldError {
     color: #ff5800;
     font-size: 0.8rem;
@@ -136,7 +138,7 @@
     to { opacity: 1; transform: translateY(0); }
   }
   
-  /* Validação visual */
+
   input:valid:not(:placeholder-shown) {
     border-color: var(--mclaren-orange) !important;
   }
@@ -145,7 +147,7 @@
     border-color: #ff5800 !important;
   }
   
-  /* Ícones de validação (opcional) */
+ 
   .hasError .formGroup::after {
     content: '✕';
     color: #ff5800;

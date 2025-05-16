@@ -1,6 +1,5 @@
-/* Estilos base */
 .authPage {
-    background-color: var(--mclaren-black); /* Preto McLaren */
+    background-color: #1a1919; 
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -11,9 +10,9 @@
     font-family: 'Helvetica Neue', Arial, sans-serif;
   }
   
-  /* Título */
+
   .authTitle {
-    color: var(--mclaren-orange); /* Laranja McLaren */
+    color: var(--mclaren-orange); 
     font-size: 2.5rem;
     margin-bottom: 2rem;
     text-transform: uppercase;
@@ -22,7 +21,7 @@
     text-shadow: 0 0 8px rgba(255, 128, 0, 0.3);
   }
   
-  /* Container do formulário */
+ 
   .authFormContainer {
     background-color: #111111;
     padding: 2.5rem;
@@ -33,7 +32,7 @@
     border-top: 4px solid var(--mclaren-orange);
   }
   
-  /* Link de login */
+ 
   .authLink {
     margin-top: 2rem;
     text-align: center;
@@ -52,7 +51,7 @@
     text-shadow: 0 0 8px rgba(255, 128, 0, 0.5);
   }
   
-  /* Mensagem de erro */
+
   .authError {
     color: #ff4444;
     background-color: rgba(255, 0, 0, 0.1);
@@ -63,12 +62,12 @@
     border-left: 4px solid #ff4444;
   }
   
-  /* Efeitos de hover genéricos */
+  
   .authTransition {
     transition: all 0.3s ease;
   }
   
-  /* Responsividade */
+
   @media (max-width: 768px) {
     .authFormContainer {
       padding: 1.5rem;

@@ -1,6 +1,6 @@
 .home_page {
     font-family: 'Orbitron', sans-serif;
-    background-color: var(--mclaren-black);
+    background-color: #1a1919;
     color: #ffffff;
     min-height: 100vh;
     display: flex;
@@ -18,12 +18,12 @@
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 1.5px;
-    text-shadow: 0 0 10px rgba(255, 128, 0, 0.5);
+    text-shadow: 0 0 6px rgba(255, 128, 0, 0.5);
     margin-top: 2rem;
   }
   
   .home_page p {
-    font-size: 1.5rem;
+    font-size: 1.75rem;
     margin-bottom: 3rem;
     max-width: 600px;
     line-height: 1.6;

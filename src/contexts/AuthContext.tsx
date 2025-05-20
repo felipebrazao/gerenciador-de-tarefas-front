@@ -1,17 +1,21 @@
-import React, { createContext, useContext, useState } from 'react';
-import { User, RegisterData } from '../utils/auth'; // Assumindo que essas tipagens existem
+import React, { createContext, useState, useEffect } from 'react';
+import { api } from '../utils/apiClient';
+import { 
+  Usuario, 
+  RegisterData, 
+  LoginData, 
+  AuthResponse, 
+  RegisterResponse, 
+  AuthContextType,
+  ApiError
+} from '../utils/auth';
 
-type AuthContextType = {
-  user: User | null;
-  register: (data: RegisterData) => Promise<void>;
-  login: (data: { email: string; password: string }) => Promise<void>;
-  logout: () => void;
-  isLoading: boolean;
-  error: string | null;
-};
+export { AuthContext };
+
 
 const AuthContext = createContext<AuthContextType>({
-  user: null,
+  usuario: null,
+  isAdmin: false, // Adicione esta linha
   register: async () => {},
   login: async () => {},
   logout: () => {},
@@ -20,68 +24,109 @@ const AuthContext = createContext<AuthContextType>({
 });
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(null);
+  const [usuario, setUsuario] = useState<Usuario | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const register = async (data: RegisterData) => {
+   const isAdmin = usuario?.authorities?.some(auth => 
+    auth.authority === "ROLE_ADMIN"
+  ) || false;
+
+
+  const register = async (data: RegisterData): Promise<void> => {
     setIsLoading(true);
     setError(null);
+    
     try {
-      // Substitua por sua chamada real à API
-      const response = await fetch('/api/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
+      const response = await api.post<RegisterResponse>('/auth/register', {
+        
+        nome: data.nome,
+        email: data.email, 
+        senha: data.senha
       });
 
-      if (!response.ok) {
-        throw new Error('Falha no registro');
+      if (response.token && response.Usuario) {
+        localStorage.setItem('authToken', response.token);
+        localStorage.setItem('usuario', JSON.stringify(response.Usuario));
+        setUsuario(response.Usuario);
       }
-
-      const userData = await response.json();
-      setUser(userData);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Erro desconhecido');
-      throw err;
+      const apiError = err as ApiError;
+      setError(apiError.message || 'Erro durante o registro');
+      throw apiError;
     } finally {
       setIsLoading(false);
     }
   };
 
-  const login = async (data: { email: string; password: string }) => {
+  const login = async (data: LoginData): Promise<void> => {
     setIsLoading(true);
     setError(null);
+    
     try {
-      // Substitua por sua chamada real à API
-      const response = await fetch('/api/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
+      const response = await api.post<AuthResponse>('/auth/login', {
+        email: data.email,
+        senha: data.senha
       });
 
-      if (!response.ok) {
-        throw new Error('Credenciais inválidas');
+       if (response.token && response.usuario) {
+        localStorage.setItem('authToken', response.token);
+        localStorage.setItem('usuario', JSON.stringify(response.usuario));
+        setUsuario(response.usuario); // Deve incluir authorities
       }
-
-      const userData = await response.json();
-      setUser(userData);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Erro desconhecido');
-      throw err;
+      const apiError = err as ApiError;
+      setError(apiError.message || 'Credenciais inválidas');
+      throw apiError;
     } finally {
       setIsLoading(false);
     }
   };
 
-  const logout = () => {
-    setUser(null);
-    // Adicione chamada à API de logout se necessário
+  const logout = (): void => {
+    localStorage.removeItem('authToken');
+    localStorage.removeItem('usuario');
+    setUsuario(null);
   };
+
+  useEffect(() => {
+  const token = localStorage.getItem('authToken');
+  const savedUsuario = localStorage.getItem('usuario');
+
+  if (token && savedUsuario) {
+    try {
+      const usuario = JSON.parse(savedUsuario);
+      
+      // Verificação leve - token existe e dados são válidos
+      if (usuario?.id && usuario?.email) { // Ajuste os campos obrigatórios
+        setUsuario(usuario);
+        
+        // Verificação opcional com chamada a qualquer endpoint
+        api.get('/usuarios') // Exemplo: endpoint que requer auth
+          .catch(() => {
+            clearAuthData();
+          });
+      } else {
+        clearAuthData();
+      }
+    } catch {
+      clearAuthData();
+    }
+  }
+
+
+  
+  function clearAuthData() {
+    localStorage.removeItem('authToken');
+    localStorage.removeItem('usuario');
+    setUsuario(null);
+  }
+}, []);
 
   return (
     <AuthContext.Provider value={{
-      user,
+      usuario,
+      isAdmin,
       register,
       login,
       logout,
@@ -93,4 +138,3 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   );
 };
 
-export const useAuth = () => useContext(AuthContext);

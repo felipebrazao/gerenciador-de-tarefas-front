@@ -1,13 +1,6 @@
-// src/pages/RegisterForm.tsx
 import React from 'react';
 import styles from './RegisterForm.module.css';
-
-type FieldErrors = {
-  nome?: string;
-  email?: string;
-  senha?: string;
-};
-
+import { FieldErrors } from '../utils/auth';
 
 
 type Props = {
@@ -16,9 +9,7 @@ type Props = {
   error?: string | null;
 };
 
-
-
-export const RegisterForm: React.FC<Props> = ({ onSubmit, isLoading, error}) => {
+export const RegisterForm: React.FC<Props> = ({ onSubmit, isLoading, error }) => {
   const [formData, setFormData] = React.useState({
     nome: '',
     email: '',
@@ -27,13 +18,13 @@ export const RegisterForm: React.FC<Props> = ({ onSubmit, isLoading, error}) => 
 
   const [errors, setErrors] = React.useState<FieldErrors>({});
 
-  const validateField = (nome: keyof typeof formData, value: string) => {
+  const validateField = (fieldName: keyof typeof formData, value: string) => {
     let error = '';
     
     if (!value.trim()) {
       error = 'Preencha este campo';
     } else {
-      switch (nome) {
+      switch (fieldName) {
         case 'email':
           if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
             error = 'Insira um email válido';
@@ -47,7 +38,7 @@ export const RegisterForm: React.FC<Props> = ({ onSubmit, isLoading, error}) => 
       }
     }
     
-    setErrors(prev => ({ ...prev, [nome]: error }));
+    setErrors(prev => ({ ...prev, [fieldName]: error }));
     return !error;
   };
 
@@ -68,11 +59,11 @@ export const RegisterForm: React.FC<Props> = ({ onSubmit, isLoading, error}) => 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    const isnomeValid = validateField('nome', formData.nome);
+    const isNomeValid = validateField('nome', formData.nome);
     const isEmailValid = validateField('email', formData.email);
-    const issenhaValid = validateField('senha', formData.senha);
+    const isSenhaValid = validateField('senha', formData.senha);
     
-    if (isnomeValid && isEmailValid && issenhaValid) {
+    if (isNomeValid && isEmailValid && isSenhaValid) {
       onSubmit(formData);
     }
   };
@@ -80,10 +71,11 @@ export const RegisterForm: React.FC<Props> = ({ onSubmit, isLoading, error}) => 
   return (
     <form className={styles.registerForm} onSubmit={handleSubmit} noValidate>
       {error && (
-  <div className={styles.formError} role="alert" aria-live="assertive">
-    {typeof error === 'string' ? error : 'Ocorreu um erro no registro'}
-  </div>
-)}
+        <div className={styles.formError} role="alert" aria-live="assertive">
+          {typeof error === 'string' ? error : 'Ocorreu um erro no registro'}
+        </div>
+      )}
+      
       <div className={`${styles.formGroup} ${errors.nome ? styles.hasError : ''}`}>
         <label htmlFor="nome">Nome</label>
         <input
@@ -114,11 +106,11 @@ export const RegisterForm: React.FC<Props> = ({ onSubmit, isLoading, error}) => 
           onChange={handleChange}
           onBlur={handleBlur}
           required
-          aria-describedby={errors.email ? "email-error" : undefined}
+          aria-describedby={errors.email ? "login-error" : undefined}
           className={styles.formInput}
         />
         {errors.email && (
-          <span id="email-error" className={styles.fieldError}>
+          <span id="login-error" className={styles.fieldError}>
             {errors.email}
           </span>
         )}

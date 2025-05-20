@@ -1,22 +1,65 @@
-export interface User {
-  id?: string;
-  name: string;
+type Usuario = {
+  id: string;
+  nome: string;
   email: string;
+  authorities?: {authority: string }[];
+};
+
+export interface AuthResponse{
+  token: string;
+  usuario: Usuario;
 }
 
 
 export interface LoginData {
   email: string;
-  password: string;
+  senha: string;
 };
 
-export interface AuthResponse {
-  user: User;
+export interface RegisterResponse {
   token: string;
+  Usuario?: {
+    id: string;
+    nome: string;
+    email: string;
+  };
 }
 
 export interface RegisterData {
-  name: string;
+  nome: string;
   email: string;
-  password: string;
+  senha: string;
 }
+
+export type ApiResponse<T = any> = {
+  data: T;
+  token?: string;
+  message?: string;
+  timestamp?: string;
+  status?: number;
+  path?: string;
+};
+
+export type ApiError = {
+  timestamp?: string;
+  status?: number;
+  error?: string;
+  message?: string;
+  path?: string;
+};
+
+export type AuthContextType = {
+  usuario: Usuario | null;
+  isAdmin: boolean;
+  register: (data: RegisterData) => Promise<void>;
+  login: (data: { email: string; senha: string }) => Promise<void>;
+  logout: () => void;
+  isLoading: boolean;
+  error: string | null;
+};
+
+export type FieldErrors = {
+  nome?: string;
+  email?: string;
+  senha?: string;
+};

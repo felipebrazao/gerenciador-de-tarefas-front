@@ -6,6 +6,12 @@ import { RegisterForm } from './RegisterForm';
 import styles from './RegisterPage.module.css';
 import { Logo } from '../components/Logo/Logo';
 
+
+interface RegisterPageLocationState {
+  registrationSuccess?: boolean;
+  email?: string;
+}
+
 export const RegisterPage: React.FC = () => {
   const navigate = useNavigate();
   const { register, isLoading, error } = useAuth();
@@ -16,12 +22,11 @@ export const RegisterPage: React.FC = () => {
       navigate('/login', { 
         state: { 
           registrationSuccess: true,
-          email: data.email 
-        } 
+          email: data.email
+        }  as RegisterPageLocationState
       });
     } catch (err) {
       console.error('Falha no registro:', err);
-      // O erro já está sendo tratado no useAuth
     }
   };
 
@@ -48,11 +53,12 @@ export const RegisterPage: React.FC = () => {
         <RegisterForm 
           onSubmit={handleRegister} 
           isLoading={isLoading}
+          error={error}
         />
       </div>
       
       <p className={styles.authLink}>
-        Já tem uma conta? <a href="/login" >Faça login</a>
+        Já tem uma conta? <a href="/login">Faça login</a>
       </p>
     </div>
   );

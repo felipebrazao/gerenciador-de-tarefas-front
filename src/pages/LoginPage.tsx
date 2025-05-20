@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../utils/useAuth';
 import { LoginForm } from './LoginForm';
 import styles from './LoginPage.module.css';
 import { Logo } from '../components/Logo/Logo';
@@ -9,10 +9,10 @@ export const LoginPage: React.FC = () => {
   const navigate = useNavigate();
   const { login, isLoading, error } = useAuth();
 
-  const handleLogin = async (data: { email: string; password: string }) => {
+  const handleLogin = async (data: { email: string; senha: string }) => {
     try {
       await login(data);
-      navigate('/dashboard');
+      navigate('/usuarios');
     } catch (err) {
       console.error('Falha no login:', err);
     }

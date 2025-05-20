@@ -1,11 +1,7 @@
 import React from 'react';
 import { LoginData } from '../utils/auth';
 import styles from './LoginForm.module.css';
-
-type FieldErrors = {
-  email?: string;
-  password?: string;
-};
+import { FieldErrors } from '../utils/auth';
 
 type Props = {
   onSubmit: (data: LoginData) => void;
@@ -16,7 +12,7 @@ type Props = {
 export const LoginForm: React.FC<Props> = ({ onSubmit, isLoading, error }) => {
   const [formData, setFormData] = React.useState<LoginData>({
     email: '',
-    password: ''
+    senha: ''
   });
 
   const [errors, setErrors] = React.useState<FieldErrors>({});
@@ -33,7 +29,7 @@ export const LoginForm: React.FC<Props> = ({ onSubmit, isLoading, error }) => {
             error = 'Insira um email válido';
           }
           break;
-        case 'password':
+        case 'senha':
           if (value.length < 6) {
             error = 'A senha deve ter pelo menos 6 caracteres';
           }
@@ -65,7 +61,7 @@ export const LoginForm: React.FC<Props> = ({ onSubmit, isLoading, error }) => {
     
     // Valida todos os campos antes de submeter
     const isEmailValid = validateField('email', formData.email);
-    const isPasswordValid = validateField('password', formData.password);
+    const isPasswordValid = validateField('senha', formData.senha);
     
     if (isEmailValid && isPasswordValid) {
       onSubmit(formData);
@@ -95,22 +91,22 @@ export const LoginForm: React.FC<Props> = ({ onSubmit, isLoading, error }) => {
         )}
       </div>
 
-      <div className={`${styles.formGroup} ${errors.password ? styles.hasError : ''}`}>
-        <label htmlFor="password">Senha</label>
+      <div className={`${styles.formGroup} ${errors.senha ? styles.hasError : ''}`}>
+        <label htmlFor="senha">Senha</label>
         <input
           type="password"
-          id="password"
-          name="password"
-          value={formData.password}
+          id="senha"
+          name="senha"
+          value={formData.senha}
           onChange={handleChange}
           onBlur={handleBlur}
           required
           minLength={6}
-          aria-describedby={errors.password ? "password-error" : undefined}
+          aria-describedby={errors.senha ? "senha-error" : undefined}
         />
-        {errors.password && (
-          <span id="password-error" className={styles.fieldError}>
-            {errors.password}
+        {errors.senha && (
+          <span id="senha-error" className={styles.fieldError}>
+            {errors.senha}
           </span>
         )}
       </div>

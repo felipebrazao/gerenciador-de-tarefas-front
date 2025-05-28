@@ -15,7 +15,7 @@ export { AuthContext };
 
 const AuthContext = createContext<AuthContextType>({
   usuario: null,
-  isAdmin: false, // Adicione esta linha
+  isAdmin: false, 
   register: async () => {},
   login: async () => {},
   logout: () => {},
@@ -45,10 +45,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         senha: data.senha
       });
 
-      if (response.token && response.Usuario) {
+      if (response.token && response.usuario) {
         localStorage.setItem('authToken', response.token);
-        localStorage.setItem('usuario', JSON.stringify(response.Usuario));
-        setUsuario(response.Usuario);
+        localStorage.setItem('usuario', JSON.stringify(response.usuario));
+        setUsuario(response.usuario);
       }
     } catch (err) {
       const apiError = err as ApiError;
@@ -72,7 +72,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
        if (response.token && response.usuario) {
         localStorage.setItem('authToken', response.token);
         localStorage.setItem('usuario', JSON.stringify(response.usuario));
-        setUsuario(response.usuario); // Deve incluir authorities
+        setUsuario(response.usuario); 
       }
     } catch (err) {
       const apiError = err as ApiError;
@@ -97,12 +97,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     try {
       const usuario = JSON.parse(savedUsuario);
       
-      // Verificação leve - token existe e dados são válidos
-      if (usuario?.id && usuario?.email) { // Ajuste os campos obrigatórios
+     
+      if (usuario?.id && usuario?.email) { 
         setUsuario(usuario);
         
-        // Verificação opcional com chamada a qualquer endpoint
-        api.get('/usuarios') // Exemplo: endpoint que requer auth
+   
+        api.get('/usuarios') 
           .catch(() => {
             clearAuthData();
           });

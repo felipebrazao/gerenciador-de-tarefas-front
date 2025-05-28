@@ -18,7 +18,7 @@ export interface LoginData {
 
 export interface RegisterResponse {
   token: string;
-  Usuario?: {
+  usuario?: {
     id: string;
     nome: string;
     email: string;

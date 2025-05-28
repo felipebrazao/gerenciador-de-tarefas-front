@@ -45,7 +45,7 @@ export const LoginForm: React.FC<Props> = ({ onSubmit, isLoading, error }) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
     
-    // Validação em tempo real após o primeiro erro
+
     if (errors[name as keyof FieldErrors]) {
       validateField(name as keyof LoginData, value);
     }
@@ -59,7 +59,7 @@ export const LoginForm: React.FC<Props> = ({ onSubmit, isLoading, error }) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Valida todos os campos antes de submeter
+    
     const isEmailValid = validateField('email', formData.email);
     const isPasswordValid = validateField('senha', formData.senha);
     
